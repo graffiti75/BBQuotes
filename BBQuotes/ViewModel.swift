@@ -32,7 +32,7 @@ class ViewModel {
         quote = try! decoder.decode(Quote.self, from: quoteData)
         
         let characterData = try! Data(contentsOf: Bundle.main.url(forResource: "samplecharacter", withExtension: "json")!)
-        quote = try! decoder.decode(Char.self, from: characterData)
+        character = try! decoder.decode(Char.self, from: characterData)
     }
     
     func getData(for show: String) async {
@@ -40,8 +40,8 @@ class ViewModel {
         
         do {
             quote = try await fetcher.fetchQuote(from: show)
-            character = try await fetcher.fetchCharacter(from: show)
-            character.death = try await fetcher.fetchDeath(from: character.name)
+            character = try await fetcher.fetchCharacter(quote.character)
+            character.death = try await fetcher.fetchDeath(for: character.name)
             self.quote = quote
             self.character = character
             self.status = .success
