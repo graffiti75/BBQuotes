@@ -18,7 +18,7 @@ struct FetchService {
     func fetchQuote(from show: String) async throws -> Quote {
         // Build fetch url
         let quoteURL = baseURL.appending(path: "quotes/random")
-        let fetchURL = baseURL.appending(queryItems: [URLQueryItem(name: "production", value: show)])
+        let fetchURL = quoteURL.appending(queryItems: [URLQueryItem(name: "production", value: show)])
         
         // Fetch data
         let (data, response) = try await URLSession.shared.data(from: fetchURL)
